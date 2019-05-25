@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, Conv2D, MaxPooling2D, Dropout, concatenate
+from keras.layers import Input, Conv2D, MaxPooling2D, Dropout, concatenate, UpSampling2D
 from keras.optimizers import SGD
 
 def unet(input_size = (512, 512, 1)):

@@ -13,8 +13,10 @@ ignore_number = [3, 7, 11, 12, 13, 14, 15]
 
 def get_imgs_size(path, size, dtype):
     img = io.imread(path)
-    print(type(img))
+    #print(type(img))
     print(path)
+    print(img.shape)
+    print(img.dtype)
     if img.shape != size or img.dtype != dtype:
         print(img.shape)
         print(img.dtype)
@@ -41,7 +43,7 @@ def mkdir(path):
         os.makedirs(path)
 
 def test_format():
-    input_dir = '../dataset/trainingset/groundtruth/'
+    input_dir = '../dataset/trainingset/mask'
     image_type = 'tif'
     image_path = os.path.join(input_dir, '*.' + image_type)
     img_path = sorted(gb.glob(image_path))
@@ -89,6 +91,6 @@ def get_training_set(num = 30):
         os.popen('cp ' + input_mask_path + ' ' + output_mask_path)
 
 if __name__ == '__main__':
-    #test_format()
+    test_format()
     #ec()
-    get_training_set()
+    #get_training_set()

@@ -1,7 +1,12 @@
 from keras.callbacks import ModelCheckpoint
 from keras.models import Model
 
+from PIL import Image
+
+import h5py
+
 from dp import trainGenerator
+from model import unet
 
 # config constant
 train_path = 'data/membrane/train'
@@ -34,7 +39,7 @@ def main():
                             save_prefix  = image_save_prefix,
                             seed = seed)
 
-    mask_generator = dict(directory = train_path,
+    mask_gen_arg_dict = dict(directory = train_path,
                         classes = [mask_folder],
                         class_mode = None,
                         color_mode = mask_color_mode,
@@ -53,3 +58,6 @@ def main():
     #testGene = testGenerator("data/membrane/test")
     #results = model.predict_generator(testGene,30,verbose=1)
     #saveResult("data/membrane/test",results)
+
+if __name__ == '__main__':
+    main()
