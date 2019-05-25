@@ -7,19 +7,22 @@ import h5py
 
 from dp import trainGenerator
 from model import unet
+from history import LossHistory
 
 # config constant
-train_path = 'data/membrane/train'
-image_folder = 'image'
-mask_folder = 'label'
+train_path = '/data/projects/punim0619/yfdata/trainingset'
+image_folder = 'train'
+mask_folder = 'mask'
 image_color_mode = 'grayscale'
 mask_color_mode = 'grayscale'
-target_size = (256,256)
+target_size = (512, 512)
 batch_size = 2
 save_to_dir = None
-image_save_prefix  = 'image'
-mask_save_prefix  = 'mask'
+image_save_prefix  = 'after_train'
+mask_save_prefix  = 'after_mask'
 seed = 1
+result_image_path = '/home/yfedward/capstone/unet/loss.jpg'
+model_path = '/home/yfedward/capstone/unet/unet_best.hdf5'
 
 def main():
     data_gen_args = dict(rotation_range=2,
@@ -51,9 +54,12 @@ def main():
                                                 
     myGene = trainGenerator(data_gen_args, img_gen_arg_dict, mask_gen_arg_dict)
 
+    history = LossHistory()
     model = unet()
-    model_checkpoint = ModelCheckpoint('unet_membrane.hdf5', monitor='loss', verbose=1, save_best_only=True)
-    model.fit_generator(myGene, steps_per_epoch=300, epochs=1, callbacks=[model_checkpoint])
+    model_checkpoint = ModelCheckpoint(model_path, monitor='loss', verbose=1, save_best_only=True)
+    model.fit_generator(myGene, steps_per_epoch=300, epochs=1, callbacks=[model_checkpoint, history])
+
+    history.loss_plot('epoch', result_image_path)
 
     #testGene = testGenerator("data/membrane/test")
     #results = model.predict_generator(testGene,30,verbose=1)

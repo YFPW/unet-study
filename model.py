@@ -46,7 +46,7 @@ def unet(input_size = (512, 512, 1)):
 
     model = Model(input = inputs, output = conv10)
 
-    sgd = SGD(lr=0.01, momentum=0.99, decay=0.0, nesterov=False)
+    sgd = SGD(lr=0.01, momentum=0.00, decay=0.0, nesterov=False)
 
     model.compile(optimizer = sgd, loss = 'binary_crossentropy', metrics = ['accuracy'])
 
