@@ -1,6 +1,6 @@
 from keras.callbacks import Callback
 import matplotlib.pyplot as plt
-
+import matplotlib
 matplotlib.use('Agg')
 
 class LossHistory(Callback):
