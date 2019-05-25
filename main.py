@@ -3,6 +3,7 @@ from keras.models import Model
 
 from dp import trainGenerator
 
+# config constant
 train_path = 'data/membrane/train'
 image_folder = 'image'
 mask_folder = 'label'
