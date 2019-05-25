@@ -57,9 +57,10 @@ def main():
     history = LossHistory()
     model = unet()
     model_checkpoint = ModelCheckpoint(model_path, monitor='loss', verbose=1, save_best_only=True)
-    model.fit_generator(myGene, steps_per_epoch=300, epochs=1, callbacks=[model_checkpoint, history])
+    model.fit_generator(myGene, steps_per_epoch=300, epochs=10, callbacks=[model_checkpoint, history])
 
     history.loss_plot('epoch', result_image_path)
+    print('result saved')
 
     #testGene = testGenerator("data/membrane/test")
     #results = model.predict_generator(testGene,30,verbose=1)

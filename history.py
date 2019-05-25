@@ -1,4 +1,7 @@
 from keras.callbacks import Callback
+import matplotlib.pyplot as plt
+
+matplotlib.use('Agg')
 
 class LossHistory(Callback):
     def on_train_begin(self, logs={}):
