@@ -66,31 +66,48 @@ def ec():
     for path in img_path:
         img_enhance_contrct(path, output_dir, input_grd_dir, output_grd_dir)
 
-def get_training_set(num = 30):
+def get_training_set(ratio = 10):
     input_dir = '../dataset/trainingset/img_crop_grey_ec'
     input_grd_dir = '../dataset/trainingset/groundtruth2'
     output_train_dir = '../dataset/trainingset/train'
     output_mask_dir = '../dataset/trainingset/mask'
+    output_test_dir = '../dataset/testset/test'
+    output_test_mask_dir = '../dataset/testset/mask'
     mkdir(output_train_dir)
     mkdir(output_mask_dir)
+    mkdir(output_test_dir)
+    mkdir(output_test_mask_dir)
     input_path = os.path.join(input_dir, '*.tif')
     images = sorted(gb.glob(input_path))
 
-    # Randomly pick 30 images
-    random.seed(10)
-    image_slice = random.sample(images, 30)
+    # Randomly pick test images
+    test_num = int(len(images) / ratio) 
+    train_num = len(images) - test_num
 
-    for path in image_slice:
+    random.seed(10)
+    test_image_slice = random.sample(images, test_num)
+
+    for path in images:
         (img_dir, tempfilename) = os.path.split(path)
-        output_train_path = os.path.join(output_train_dir, tempfilename)
-        file_index = re.findall(r"img(.*)", tempfilename)[0]
-        mask_filename = 'seg' + file_index
-        input_mask_path = os.path.join(input_grd_dir, mask_filename)
-        output_mask_path = os.path.join(output_mask_dir, mask_filename)
-        os.popen('cp ' + path + ' ' + output_train_path)
-        os.popen('cp ' + input_mask_path + ' ' + output_mask_path)
+        if path in test_image_slice:
+            output_test_path = os.path.join(output_test_dir, tempfilename)
+            file_index = re.findall(r"img(.*)", tempfilename)[0]
+            mask_filename = 'seg' + file_index
+            input_mask_path = os.path.join(input_grd_dir, mask_filename)
+            output_test_mask_path = os.path.join(output_test_mask_dir, mask_filename)
+            os.popen('cp ' + path + ' ' + output_test_path)
+            os.popen('cp ' + input_mask_path + ' ' + output_test_mask_path)
+
+        else:
+            output_train_path = os.path.join(output_train_dir, tempfilename)
+            file_index = re.findall(r"img(.*)", tempfilename)[0]
+            mask_filename = 'seg' + file_index
+            input_mask_path = os.path.join(input_grd_dir, mask_filename)
+            output_mask_path = os.path.join(output_mask_dir, mask_filename)
+            os.popen('cp ' + path + ' ' + output_train_path)
+            os.popen('cp ' + input_mask_path + ' ' + output_mask_path)
 
 if __name__ == '__main__':
-    test_format()
+    #test_format()
     #ec()
-    #get_training_set()
+    get_training_set()
