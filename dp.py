@@ -1,4 +1,5 @@
 from keras.preprocessing.image import ImageDataGenerator
+import glob as gb
 
 def adjustData(img, mask):
     img = img / 255
@@ -24,4 +25,10 @@ def trainGenerator(aug_dict, img_gen_arg_dict, mask_gen_arg_dict):
         img,mask = adjustData(img, mask)
         yield (img,mask)
                 
-
+def testGenerator(test_path):
+    test_images = sorted(gb.glob(test_path))
+    for test_image in range test_images:
+        img = io.imread(test_image)
+        img = img / 255
+        img = np.reshape(img,img.shape+(1,))
+        yield img

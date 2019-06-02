@@ -6,6 +6,7 @@ from PIL import Image
 import h5py
 
 from dp import trainGenerator
+from dp import testGenerator
 from model import unet
 from history import LossHistory
 
@@ -21,8 +22,8 @@ save_to_dir = None
 image_save_prefix  = 'after_train'
 mask_save_prefix  = 'after_mask'
 seed = 1
-result_image_path = '/home/yfedward/capstone/unet/loss.jpg'
-model_path = '/home/yfedward/capstone/unet/unet_best.hdf5'
+result_image_path = '/home/yfedward/capstone/unet-study/loss.jpg'
+model_path = '/home/yfedward/capstone/unet-study/unet_best.hdf5'
 
 def main():
     data_gen_args = dict(rotation_range=2,
@@ -62,9 +63,9 @@ def main():
     history.loss_plot('epoch', result_image_path)
     print('result saved')
 
-    #testGene = testGenerator("data/membrane/test")
-    #results = model.predict_generator(testGene,30,verbose=1)
-    #saveResult("data/membrane/test",results)
+    testGene = testGenerator("data/membrane/test")
+    results = model.predict_generator(testGene,30,verbose=1)
+    saveResult("data/membrane/test",results)
 
 if __name__ == '__main__':
     main()
