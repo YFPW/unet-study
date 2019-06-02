@@ -1,8 +1,8 @@
 from keras.models import Model
 from keras.layers import Input, Conv2D, MaxPooling2D, Dropout, concatenate, UpSampling2D
-from keras.optimizers import SGD
+from keras.optimizers import SGD, Adam
 
-def unet(input_size = (512, 512, 1)):
+def unet(input_size = (256, 256, 1)):
     inputs = Input(input_size)
     conv1 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(inputs)
     conv1 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv1)
@@ -46,8 +46,9 @@ def unet(input_size = (512, 512, 1)):
 
     model = Model(input = inputs, output = conv10)
 
-    sgd = SGD(lr=0.01, momentum=0.00, decay=0.0, nesterov=False)
+    #sgd = SGD(lr=0.001, momentum=0.2, decay=0.0, nesterov=False)
+    adam = Adam(1e-4)
 
-    model.compile(optimizer = sgd, loss = 'binary_crossentropy', metrics = ['accuracy'])
+    model.compile(optimizer = adam, loss = 'binary_crossentropy', metrics = ['accuracy'])
 
     return model
