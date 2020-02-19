@@ -17,18 +17,19 @@ ignore_number = [3, 7, 11, 12, 13, 14, 15]
 
 def get_imgs_size(path, size, dtype):
     img = io.imread(path)
-    print(path)
-    print(type(img))
-    print(img.shape)
-    print(img.dtype)
-    print(img.max())
-    print(img.min())
+    #print(path)
+    #print(type(img))
+    #print(img.shape)
+    #print(img.dtype)
+    #print(img.max())
+    #print(img.min())
     #print(len(img[img == img.max()]))
     #print(len(img[img == img.min()]))
     #print(len(img[img == img.max()]) + len(img[img == img.min()]) == 512*512)
-    #if img.shape != size or img.dtype != dtype:
-        #print(img.shape)
-        #print(img.dtype)
+    if img.shape != size or img.dtype != dtype:
+        print(path)
+        print(img.shape)
+        print(img.dtype)
 
 def img_enhance_contrct(path, output_dir, input_grd_dir = None, output_grd_dir = None):
     (img_dir, tempfilename) = os.path.split(path)
@@ -63,7 +64,7 @@ def mkdir(path):
         os.makedirs(path)
 
 def test_format():
-    input_dir = '../dataset/testset/mix0.8'
+    input_dir = '/mnt/hgfs/vmware_share_dir/unet-dataset/dataset/trainingset/img_crop_grey'
     image_type = 'tif'
     image_path = os.path.join(input_dir, '*.' + image_type)
     img_path = sorted(gb.glob(image_path))
@@ -179,7 +180,7 @@ def mix():
         print('')
 
 if __name__ == '__main__':
-    mix()
+    #mix()
     test_format()
     #resize()
     #ec()
